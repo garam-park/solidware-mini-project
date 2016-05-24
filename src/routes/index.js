@@ -1,6 +1,9 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Home from './Home'
+import Counter from './Counter'
+import Zen from './Zen'
+import NotFound from './NotFound'
 
 export const createRoutes = (store) => {
 /*  Note: Instead of using JSX, we are using react-router PlainRoute,
@@ -11,16 +14,22 @@ export const createRoutes = (store) => {
     path: '/',
     component: CoreLayout,
     indexRoute: Home,
-    getChildRoutes (location, next) {
-      require.ensure([], (require) => {
-        next(null, [
+    childRoutes :
+    [
+      Counter(store),
+      Zen(store),
+      NotFound,
+    ]
+    // getChildRoutes (location, next) {
+    //   require.ensure([], (require) => {
+    //     next(null, [
           // Provide store for async reducers and middleware
-          require('./Counter').default(store),
-          require('./Zen').default(store),
-          require('./NotFound').default
-        ])
-      })
-    }
+          // require('./Counter').default(store),
+          // require('./Zen').default(store),
+          // require('./NotFound').default
+      //   ])
+      // })
+    // }
   }
 
   return routes
