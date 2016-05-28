@@ -11,19 +11,48 @@ import _debug from 'debug'
 import config from '../config'
 import webpackDevMiddleware from './middleware/webpack-dev'
 import webpackHMRMiddleware from './middleware/webpack-hmr'
+import Sentinel from '../src/functions/Sentinel'
 
 const debug = _debug('app:server')
 const paths = config.utils_paths
 const app = new Koa()
-const router = new Router();
+const router = new Router()
+const koaBody = new KoaBody()
+
 
 router.post(
-  '/login', new KoaBody(),
+  '/login', koaBody,
   function *(next) {
-    console.log(this.request.body);
-    this.body = JSON.stringify(this.request.body);
+
+    let email = this.request.email;
+    let password = this.request.password;
+    let body = "";
+    users.forEach((element, index, array)=> {
+      console.log('a[' + index + '] = ' + element);
+      body += index+":"+JSON.stringify(element)+"/"
+    })
+
+    this.body = body//this.request.body.email + ":" + this.request.body.password;
   }
 );
+
+router.post(
+  '/register',koaBody,
+  function *(next) {
+    let sentinel = Sentinel.getInstance()
+    if(sentinel){
+      try {
+        let ret = yield sentinel.register(this.request.body)
+      } catch (e) {
+        console.log("garam ::::::: ----------"+e);
+        this.body = e;
+        this.response.status = 500;
+      }
+    }else{
+      this.body = this.request.body//this.request.body.email + ":" + this.request.body.password;
+    }
+  }
+)
 
 app.use(router.routes());
 
