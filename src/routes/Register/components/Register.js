@@ -1,5 +1,5 @@
 /* @flow */
-import React, {findDOMNode} from 'react'
+import React from 'react'
 
 type Props = {
   waiting  : boolean,
@@ -15,9 +15,7 @@ class Register extends React.Component {
 
   render(){
 
-    const { waiting, received, success,createInitAction } = this.props
-    console.log(createInitAction);
-
+    const { waiting, received, success } = this.props
     if(waiting){
       return (<div>기다리시오</div>)
     }else if (received) {

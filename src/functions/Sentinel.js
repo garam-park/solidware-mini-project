@@ -19,6 +19,14 @@ class Sentinel {
     return ret;
   }
 
+  login(userInfo){
+
+    let ret = this.db.collection('users').findOne(userInfo,function(err,doc){
+      if(err) throw err;
+    })
+    return ret
+  }
+
   authenticate(userInfo){
     console.log(userInfo);
   }

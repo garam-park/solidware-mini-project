@@ -19,23 +19,6 @@ const app = new Koa()
 const router = new Router()
 const koaBody = new KoaBody()
 
-
-router.post(
-  '/login', koaBody,
-  function *(next) {
-
-    let email = this.request.email;
-    let password = this.request.password;
-    let body = "";
-    users.forEach((element, index, array)=> {
-      console.log('a[' + index + '] = ' + element);
-      body += index+":"+JSON.stringify(element)+"/"
-    })
-
-    this.body = body//this.request.body.email + ":" + this.request.body.password;
-  }
-);
-
 router.post(
   '/register',koaBody,
   function *(next) {
@@ -44,6 +27,27 @@ router.post(
       try {
         let ret = yield sentinel.register(this.request.body)
         this.body = ret
+      } catch (e) {
+        console.log("garam ::::::: ----------"+e);
+        this.body = e;
+        this.response.status = 500;
+      }
+    }else{
+      this.body = this.request.body//this.request.body.email + ":" + this.request.body.password;
+    }
+  }
+)
+
+router.post(
+  '/login',koaBody,
+  function *(next) {
+    console.log("01 login");
+    let sentinel = Sentinel.getInstance()
+    if(sentinel){
+      try {
+        let ret = sentinel.login(this.request.body)
+        console.log(ret);
+        this.body = { ...ret,ok : 1}
       } catch (e) {
         console.log("garam ::::::: ----------"+e);
         this.body = e;
