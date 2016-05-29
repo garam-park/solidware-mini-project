@@ -1,15 +1,13 @@
 /* @flow */
 import { connect } from 'react-redux'
-// import { fetchZen, saveCurrentZen } from '../modules'
+import { requestReg } from '../modules/register'
 
 import Register from '../components/Register'
 
-// import type { ZenObject } from '../interface'
-
-// const mapActionCreators: {fetchZen: Function, saveCurrentZen: Function} = {
-//   fetchZen,
-//   saveCurrentZen
-// }
+const mapActionCreators : {requestReg: Function} =
+{
+  requestReg
+}
 
 const mapStateToProps =
 (state) =>
@@ -21,4 +19,4 @@ const mapStateToProps =
   password : state.register.password
 })
 
-export default connect(mapStateToProps, null)(Register)
+export default connect(mapStateToProps, mapActionCreators)(Register)

@@ -1,7 +1,7 @@
 /* @flow */
 
 import type { RegObject, RegisterStateObject } from '../interfaces/register.js'
-
+import { post } from 'ajax'
 /**
  * Action Types
  * 등록 요청 -> 등록 받기 -> 1. 정상 처리 / 2. 등록 에러
@@ -9,6 +9,11 @@ import type { RegObject, RegisterStateObject } from '../interfaces/register.js'
 export const REQUEST_REG = 'REQUEST_REG'
 export const RECIEVE_REG = 'RECIEVE_REG'
 export const INITIALIZE  = 'INITIALIZE'
+const initialState: RegisterStateObject = {
+  waiting  : false,
+  received : false,
+  success  : false
+}
 /*
  * End of Action Types
  */
@@ -17,13 +22,9 @@ export const INITIALIZE  = 'INITIALIZE'
  * Action Creators
  */
 
-export function createReqRegAction(value:RegObject) : Action {
+export function createReqRegAction() : Action {
   return {
-    type : REQUEST_REG,
-    payload : {
-      email : value.email,
-      password : value.password
-    }
+    type : REQUEST_REG
   }
 }
 
@@ -33,9 +34,25 @@ export function createRecvRegAction(success) : Action {
     success
   }
 }
-export function createInitAction(success) : Action {
+
+export function createInitAction (): Action {
   return {
-    type : INITIALIZE
+    type: INITIALIZE
+  }
+}
+
+export function requestReg(payload) {
+  return (dispatch: Function): Promise => {
+    dispatch(createReqRegAction())
+    return post('/register',payload,(data)=>{
+      let isSuccess = false;
+      if(data.ok){
+        isSuccess = true;
+      }else{
+        isSuccess = false;
+      }
+      dispatch(createRecvRegAction(isSuccess))
+    })
   }
 }
 
@@ -53,15 +70,13 @@ export function createInitAction(success) : Action {
    [RECIEVE_REG]: (state: RegisterStateObject, action): RegisterStateObject => {
      return ({ ...state,
       waiting: false ,
-      success: action.action,
+      success: action.success,
       received: true
     })
    },
    [INITIALIZE]: (state: RegisterStateObject): RegisterStateObject => {
      return ({ ...state,
-       waiting  : false,
-       received : false,
-       success  : false
+       initialState
      })
    }
  }
@@ -69,11 +84,7 @@ export function createInitAction(success) : Action {
 /**
  * Reducers
  */
-const initialState: RegisterStateObject = {
-  waiting  : false,
-  received : false,
-  success  : false
-}
+
 export default function registerReducer (state: RegisterStateObject = initialState, action: Action): RegisterStateObject {
  const handler = REG_ACTION_HANDLERS[action.type]
  return handler ? handler(state, action) : state

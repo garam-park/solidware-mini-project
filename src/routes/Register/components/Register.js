@@ -1,12 +1,10 @@
 /* @flow */
-import React from 'react'
+import React, {findDOMNode} from 'react'
 
 type Props = {
   waiting  : boolean,
   received : boolean,
-  success  : boolean,
-  email    : ?string,
-  password : ?string
+  success  : boolean
 }
 
 class Register extends React.Component {
@@ -16,26 +14,73 @@ class Register extends React.Component {
   }
 
   render(){
-    console.log(this.props);
-    return (
-      <div>
-        Register
-        // <div>waiting : {this.props.waiting? 'true':'false'}</div>
-        // <div>received : {this.props.received? 'true':'false'}</div>
-        // <div>success : {this.props.success? 'true':'false'}</div>
-        // <div>email : {this.props.email}</div>
-        // <div>password : {this.props.password}</div>
-        <form>
-          Email :
-          <input type="text" name="firstname">
-          <br>
-          password:
-          <input type="text" name="lastname">
-          <br/>
-          <button>register</button>
-        </form>
-      </div>
-    )
+
+    const { waiting, received, success,createInitAction } = this.props
+    console.log(createInitAction);
+
+    if(waiting){
+      return (<div>기다리시오</div>)
+    }else if (received) {
+      if(success){
+        return (
+          <div>
+            가입 성공<br/>
+            <div>
+              Register
+              <form>
+                Email :
+                <input type="text" ref="email" name="firstname"></input>
+                <br/>
+                password:
+                <input type="text" ref="password" name="lastname"></input>
+                <br/>
+              </form>
+              <button onClick={(e) => this.doRegister(e)}>register</button>
+            </div>
+          </div>)
+      }else {
+        return (<div>
+          가입 실패<br/>
+          <div>
+            Register
+            <form>
+              Email :
+              <input type="text" ref="email" name="firstname"></input>
+              <br/>
+              password:
+              <input type="text" ref="password" name="lastname"></input>
+              <br/>
+            </form>
+            <button onClick={(e) => this.doRegister(e)}>register</button>
+          </div>
+          </div>)
+      }
+
+    }else{
+      return (
+        <div>
+          Register
+          <form>
+            Email :
+            <input type="text" ref="email" name="firstname"></input>
+            <br/>
+            password:
+            <input type="text" ref="password" name="lastname"></input>
+            <br/>
+          </form>
+          <button onClick={(e) => this.doRegister(e)}>register</button>
+        </div>
+      )
+    }
+  }
+
+  doRegister(e) {
+    const email    = this.refs.email.value.trim();
+    const password = this.refs.password.value.trim();
+    this.props.requestReg({
+      email,
+      password
+    });
   }
 }
 
