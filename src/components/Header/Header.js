@@ -23,6 +23,10 @@ class Header extends React.Component{
         <Link to='/register' activeClassName={classes.activeRoute}>
           Register
         </Link>
+        {' · '}
+        <Link to='/login' activeClassName={classes.activeRoute}>
+          Login
+        </Link>
       </div>
     )
   }
