@@ -3,6 +3,7 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Home from './Home'
 import Counter from './Counter'
 import Zen from './Zen'
+import Register from './Register'
 import NotFound from './NotFound'
 
 export const createRoutes = (store) => {
@@ -18,7 +19,8 @@ export const createRoutes = (store) => {
     [
       Counter(store),
       Zen(store),
-      NotFound,
+      Register(store),
+      NotFound
     ]
   }
 
