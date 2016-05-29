@@ -43,6 +43,7 @@ router.post(
     if(sentinel){
       try {
         let ret = yield sentinel.register(this.request.body)
+        this.body = ret
       } catch (e) {
         console.log("garam ::::::: ----------"+e);
         this.body = e;
