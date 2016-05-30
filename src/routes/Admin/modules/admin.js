@@ -3,7 +3,7 @@
 import type { UserInfo } from '../interfaces/admin'
 import { post } from 'jquery'
 
-export const GRAPHQL_URL = process.env.GRAPHQL_URL||"NOT FOUND";
+let GRAPHQL_URL = "https://agile-anchorage-81292.herokuapp.com/graphql";
 // Action type
 // ------------------------------------
 export const REQUEST_USERS      = 'REQUEST_USERS'

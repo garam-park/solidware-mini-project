@@ -4,11 +4,15 @@ import _debug from 'debug'
 import { MongoClient } from 'mongodb'
 import Sentinel from '../src/functions/Sentinel'
 
+let MONGO_URI = process.env.MONGODB_URL||"NOT FOUND";
+let GRAPHQL_URL = process.env.GRAPHQL_URL||"NOT FOUND";
+
 const debug = _debug('app:bin:server')
 const port = config.server_port
 const host = config.server_host
 
-let MONGO_URI = process.env.MONGODB_URL||"NOT FOUND";
+debug("MONGO_URI is "+MONGO_URI);
+// debug("GRAPHQL_URL is "+GRAPHQL_URL);
 
 MongoClient.connect(
   MONGO_URI,
