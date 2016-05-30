@@ -3,7 +3,10 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Home from './Home'
 import Counter from './Counter'
 import Zen from './Zen'
+import Register from './Register'
 import NotFound from './NotFound'
+import Login from './Login'
+import Admin from './Admin'
 
 export const createRoutes = (store) => {
 /*  Note: Instead of using JSX, we are using react-router PlainRoute,
@@ -18,18 +21,11 @@ export const createRoutes = (store) => {
     [
       Counter(store),
       Zen(store),
-      NotFound,
+      Register(store),
+      Login(store),
+      Admin(store),
+      NotFound
     ]
-    // getChildRoutes (location, next) {
-    //   require.ensure([], (require) => {
-    //     next(null, [
-          // Provide store for async reducers and middleware
-          // require('./Counter').default(store),
-          // require('./Zen').default(store),
-          // require('./NotFound').default
-      //   ])
-      // })
-    // }
   }
 
   return routes

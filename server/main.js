@@ -1,5 +1,7 @@
 import Koa from 'koa'
 import convert from 'koa-convert'
+import Router from 'koa-router'
+import KoaBody from 'koa-body'
 import webpack from 'webpack'
 import webpackConfig from '../build/webpack.config'
 import historyApiFallback from 'koa-connect-history-api-fallback'
@@ -9,10 +11,58 @@ import _debug from 'debug'
 import config from '../config'
 import webpackDevMiddleware from './middleware/webpack-dev'
 import webpackHMRMiddleware from './middleware/webpack-hmr'
+import Sentinel from '../src/functions/Sentinel'
 
 const debug = _debug('app:server')
 const paths = config.utils_paths
 const app = new Koa()
+const router = new Router()
+const koaBody = new KoaBody()
+
+router.post(
+  '/register',koaBody,
+  function *(next) {
+    let sentinel = Sentinel.getInstance()
+    if(sentinel){
+      try {
+        let ret = yield sentinel.register(this.request.body)
+        this.body = ret
+      } catch (e) {
+        console.log("garam ::::::: ----------"+e);
+        this.body = e;
+        this.response.status = 500;
+      }
+    }else{
+      this.body = this.request.body//this.request.body.email + ":" + this.request.body.password;
+    }
+  }
+)
+
+router.post(
+  '/login',koaBody,
+  function *(next) {
+    console.log("01 login");
+    let sentinel = Sentinel.getInstance()
+    if(sentinel){
+      try {
+        console.log("02 sen login start");
+        let ret = yield sentinel.login(this.request.body)
+        if(ret !== null)
+          this.body = { ...ret,ok : 1}
+        console.log("03 sen login end, ret is "+ret);
+
+      } catch (e) {
+        console.log("garam ::::::: ----------"+e);
+        this.body = e;
+        this.response.status = 500;
+      }
+    }else{
+      this.body = this.request.body//this.request.body.email + ":" + this.request.body.password;
+    }
+  }
+)
+
+app.use(router.routes());
 
 // Enable koa-proxy if it has been enabled in the config.
 if (config.proxy && config.proxy.enabled) {

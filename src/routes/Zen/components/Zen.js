@@ -11,37 +11,48 @@ type Props = {
   saveCurrentZen: Function
 }
 
-export const Zen = (props: Props) => (
-  <div>
-    <div>
-      <h2 className={classes.zenHeader}>
-        {props.zen ? props.zen.value : ''}
-      </h2>
-      <button className='btn btn-default' onClick={props.fetchZen}>
-        Fetch a wisdom
-      </button>
-      {' '}
-      <button className='btn btn-default' onClick={props.saveCurrentZen}>
-        Save
-      </button>
-    </div>
-    {props.saved.length
-      ? <div className={classes.savedWisdoms}>
-        <h3>
-          Saved wisdoms
-        </h3>
-        <ul>
-          {props.saved.map(zen =>
-            <li key={zen.id}>
-              {zen.value}
-            </li>
-          )}
-        </ul>
+class Zen extends React.Component {
+  constructor(props : Props){
+    super(props)
+  }
+
+  render(){
+
+    const { fetchZen, saveCurrentZen, saved, zen} = this.props
+
+    return (
+      <div>
+        <div>
+          <h2 className={classes.zenHeader}>
+            {zen ? zen.value : ''}
+          </h2>
+          <button className='btn btn-default' onClick={fetchZen}>
+            Fetch a wisdom
+          </button>
+          {' '}
+          <button className='btn btn-default' onClick={saveCurrentZen}>
+            Save
+          </button>
+        </div>
+        {saved.length
+          ? <div className={classes.savedWisdoms}>
+            <h3>
+              Saved wisdoms
+            </h3>
+            <ul>
+              {saved.map(zen =>
+                <li key={zen.id}>
+                  {zen.value}
+                </li>
+              )}
+            </ul>
+          </div>
+          : null
+        }
       </div>
-      : null
-    }
-  </div>
-)
+    )
+  }
+}
 
 Zen.propTypes = {
   zen: React.PropTypes.object,
