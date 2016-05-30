@@ -45,9 +45,12 @@ router.post(
     let sentinel = Sentinel.getInstance()
     if(sentinel){
       try {
-        let ret = sentinel.login(this.request.body)
-        console.log(ret);
-        this.body = { ...ret,ok : 1}
+        console.log("02 sen login start");
+        let ret = yield sentinel.login(this.request.body)
+        if(ret !== null)
+          this.body = { ...ret,ok : 1}
+        console.log("03 sen login end, ret is "+ret);
+
       } catch (e) {
         console.log("garam ::::::: ----------"+e);
         this.body = e;

@@ -13,7 +13,7 @@ const host = config.server_host
 
 let app = express()
 
-let MONGO_URI = '';
+let MONGO_URI = 'mongodb://garam:1234@ds017553.mlab.com:17553/garam';
 
 app.all('*', function(req, res,next) {
     /**

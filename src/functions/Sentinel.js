@@ -9,21 +9,11 @@ class Sentinel {
 
   register(userInfo){
     let ret = this.db.collection('users').insertOne(userInfo);
-    //   ,(err, result)=>{
-    //   if(err){
-    //     console.log(err);
-    //   }else {
-    //     console.log(result);
-    //   }
-    // });
     return ret;
   }
 
   login(userInfo){
-
-    let ret = this.db.collection('users').findOne(userInfo,function(err,doc){
-      if(err) throw err;
-    })
+    let ret = this.db.collection('users').findOne(userInfo)
     return ret
   }
 
