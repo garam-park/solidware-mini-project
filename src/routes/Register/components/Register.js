@@ -27,10 +27,13 @@ class Register extends React.Component {
               Register
               <form>
                 Email :
-                <input type="text" ref="email" name="firstname"></input>
+                <input type="text" ref="email" name="email"></input>
+                <br/>
+                Name :
+                <input type="text" ref="name" name="name"></input>
                 <br/>
                 password:
-                <input type="text" ref="password" name="lastname"></input>
+                <input type="text" ref="password" name="passowrd"></input>
                 <br/>
               </form>
               <button onClick={(e) => this.doRegister(e)}>register</button>
@@ -43,10 +46,13 @@ class Register extends React.Component {
             Register
             <form>
               Email :
-              <input type="text" ref="email" name="firstname"></input>
+              <input type="text" ref="email" name="email"></input>
+              <br/>
+              Name :
+              <input type="text" ref="name" name="name"></input>
               <br/>
               password:
-              <input type="text" ref="password" name="lastname"></input>
+              <input type="text" ref="password" name="passowrd"></input>
               <br/>
             </form>
             <button onClick={(e) => this.doRegister(e)}>register</button>
@@ -60,10 +66,13 @@ class Register extends React.Component {
           Register
           <form>
             Email :
-            <input type="text" ref="email" name="firstname"></input>
+            <input type="text" ref="email" name="email"></input>
+            <br/>
+            Name :
+            <input type="text" ref="name" name="name"></input>
             <br/>
             password:
-            <input type="text" ref="password" name="lastname"></input>
+            <input type="text" ref="password" name="passowrd"></input>
             <br/>
           </form>
           <button onClick={(e) => this.doRegister(e)}>register</button>
@@ -75,9 +84,11 @@ class Register extends React.Component {
   doRegister(e) {
     const email    = this.refs.email.value.trim();
     const password = this.refs.password.value.trim();
+    const name = this.refs.name.value.trim();
     this.props.requestReg({
       email,
-      password
+      password,
+      name
     });
   }
 }
