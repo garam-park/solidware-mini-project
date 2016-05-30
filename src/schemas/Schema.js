@@ -3,7 +3,8 @@ import {
   GraphQLObjectType,
   GraphQLInt,
   GraphQLList,
-  GraphQLString
+  GraphQLString,
+  GraphQLNonNull
 } from 'graphql';
 
 let Schema = (db) => {
@@ -13,6 +14,14 @@ let Schema = (db) => {
         _id : { type : GraphQLString },
         email : { type : GraphQLString },
         name : { type : GraphQLString },
+        password : { type : GraphQLString }
+      })
+  })
+
+  let ChangeUserType = new GraphQLObjectType({
+      name :'User',
+      fields : () => ({
+        email : { type : GraphQLString },
         password : { type : GraphQLString }
       })
   })
@@ -27,21 +36,29 @@ let Schema = (db) => {
           resolve : () => db.collection("users").find({}).toArray() //
         }
       })//end of fields
-    })//end of query
-    // ,
-    // mutation: new GraphQLObjectType({
-    //   name : 'Mutation',
-    //   fields : () => ({
-    //     increamentCounter : {
-    //       type : GraphQLInt,
-    //       resolve : () => ++conunter
-    //     },
-    //     message : {
-    //       type : GraphQLString,
-    //       resolve: () => "Hello GraphQL"
-    //     }
-    //   })//end of fields
-    // })//end of mutation
+    }),//end of query
+    mutation: new GraphQLObjectType({
+      name : 'Mutation',
+      fields : () => ({
+        updateUser: {
+          type: UserType,
+          args: {
+            email: {
+              name: 'email',
+              type: new GraphQLNonNull(GraphQLString)
+            },
+            name: {
+              name: 'name',
+              type: GraphQLString
+            }
+          },
+          resolve: (obj, {email, name}) =>
+            // return db.collection("users").updateOne({email:email}, {$set:{name:name}})
+            db.collection("users").updateOne({email:email}, {$set:{name:name}})
+          // resolve : (obj,{email, name}) => db.collection("users").findOne({email:email}).toArray() //
+        }//end of updateUser
+      })//end of fields
+    })//end of mutation
   })
   return schema;
 }

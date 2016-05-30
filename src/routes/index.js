@@ -5,6 +5,7 @@ import Counter from './Counter'
 import Zen from './Zen'
 import Register from './Register'
 import NotFound from './NotFound'
+import Admin from './Admin'
 
 export const createRoutes = (store) => {
 /*  Note: Instead of using JSX, we are using react-router PlainRoute,
@@ -20,6 +21,7 @@ export const createRoutes = (store) => {
       Counter(store),
       Zen(store),
       Register(store),
+      Admin(store),
       NotFound
     ]
   }
