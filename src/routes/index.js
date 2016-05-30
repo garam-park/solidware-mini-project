@@ -6,6 +6,7 @@ import Zen from './Zen'
 import Register from './Register'
 import NotFound from './NotFound'
 import Login from './Login'
+import Admin from './Admin'
 
 export const createRoutes = (store) => {
 /*  Note: Instead of using JSX, we are using react-router PlainRoute,
@@ -22,6 +23,7 @@ export const createRoutes = (store) => {
       Zen(store),
       Register(store),
       Login(store),
+      Admin(store),
       NotFound
     ]
   }
