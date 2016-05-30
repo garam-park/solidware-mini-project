@@ -47,14 +47,14 @@ let Schema = (db) => {
               name: 'email',
               type: new GraphQLNonNull(GraphQLString)
             },
-            name: {
-              name: 'name',
+            password: {
+              name: 'password',
               type: GraphQLString
             }
           },
-          resolve: (obj, {email, name}) =>
+          resolve: (obj, {email, password}) =>
             // return db.collection("users").updateOne({email:email}, {$set:{name:name}})
-            db.collection("users").updateOne({email:email}, {$set:{name:name}})
+            db.collection("users").updateOne({email:email}, {$set:{password:password}})
           // resolve : (obj,{email, name}) => db.collection("users").findOne({email:email}).toArray() //
         }//end of updateUser
       })//end of fields

@@ -19,26 +19,33 @@ class Admin extends React.Component {
   render(){
 
     const { waiting, received, success, users } = this.props
-      if(users){
-        return (
-          <div>
-            Change User Password <br/>
-            <hr/>
-            <form>
-              Email :
-              <input type="text" ref="email" name="email"></input>
-              <br/>
-              password:
-              <input type="text" ref="password" name="password"></input>
-              <br/>
-            </form>
-            <button>Change</button>
-            <hr/>
-            User List
-          </div>
-        )
-      }
-      else
+
+    console.log(users);
+    if(users){
+      return (
+        <div>
+          Change User Password <br/>
+          <hr/>
+          <form>
+            Email :
+            <input type="text" ref="email" name="email"></input>
+            <br/>
+            password:
+            <input type="text" ref="password" name="password"></input>
+            <br/>
+          </form>
+          <button>Change</button>
+          <hr/>
+          <ol>
+            {users.map((user) => {
+                return <li key={user._id}>{user.email}</li>;
+              })
+            }
+          </ol>
+        </div>
+      )
+    }
+    else{
       return (
         <div>
           Change User Password <br/>
@@ -55,6 +62,8 @@ class Admin extends React.Component {
           <hr/>
         </div>
       )
+    }
+
   }
 
   // doChange(e) {
