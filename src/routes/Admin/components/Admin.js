@@ -6,7 +6,15 @@ type Props = {
   received : boolean,
   success  : boolean
 }
-
+function myCustomIf(condition, onTrue, onFalse){
+    onTrue  = onTrue  || function(){ return null }
+    onFalse = onFalse || function(){ return null }
+    if(condition){
+        return onTrue();
+    }else{
+        return onFalse();
+    }
+}
 class Admin extends React.Component {
 
   constructor(props: Props){
@@ -20,60 +28,50 @@ class Admin extends React.Component {
 
     const { waiting, received, success, users } = this.props
 
-    console.log(users);
-    if(users){
+    console.log("waiting : "+waiting);
+    console.log("received : "+received);
+    console.log("success : "+success);
+    console.log("users : "+users);
       return (
         <div>
           Change User Password <br/>
           <hr/>
-          <form>
-            Email :
-            <input type="text" ref="email" name="email"></input>
-            <br/>
-            password:
-            <input type="text" ref="password" name="password"></input>
-            <br/>
-          </form>
-          <button>Change</button>
+          {(waiting
+               ? <div>변경 중..</div>
+               : <div>
+                  <form>
+                   Email :
+                   <input type="text" ref="email" name="email"></input>
+                   <br/>
+                   password:
+                   <input type="text" ref="password" name="password"></input>
+                   <br/>
+                   </form>
+                   <button onClick={(e) => this.doChange(e)}>Change</button>
+                  </div>
+          )}
           <hr/>
           <ol>
-            {users.map((user) => {
+          {
+            myCustomIf(users !== undefined, function(){
+              return users.map((user) => {
                 return <li key={user._id}>{user.email}</li>;
-              })
-            }
+             })
+            })
+          }
           </ol>
         </div>
       )
-    }
-    else{
-      return (
-        <div>
-          Change User Password <br/>
-          <hr/>
-          <form>
-            Email :
-            <input type="text" ref="email" name="email"></input>
-            <br/>
-            password:
-            <input type="text" ref="password" name="password"></input>
-            <br/>
-          </form>
-          <button>Change</button>
-          <hr/>
-        </div>
-      )
-    }
-
   }
 
-  // doChange(e) {
-  //   const email    = this.refs.email.value.trim();
-  //   const password = this.refs.password.value.trim();
-  //   this.props.requestUsers({
-  //     email,
-  //     password
-  //   });
-  // }
+  doChange(e) {
+    const email    = this.refs.email.value.trim();
+    const password = this.refs.password.value.trim();
+    this.props.requestChUsers({
+      email,
+      password
+    });
+  }
 }
 
 export default Admin

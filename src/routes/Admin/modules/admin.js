@@ -8,6 +8,7 @@ import { post } from 'jquery'
 export const REQUEST_USERS      = 'REQUEST_USERS'
 export const RECIEVE_USERS      = 'RECIEVE_USERS'
 export const REQUEST_USER_PW_CH = 'REQUEST_USER_PW_CH'
+export const RECIEVE_USER_PW_CH = 'RECIEVE_USER_PW_CH'
 
 const initialState = {
   waiting  : false,
@@ -34,6 +35,12 @@ export function createReqChangeUserAction() : Action {
   }
 }
 
+export function createRecvChUsersAction() : Action {
+  return {
+    type: RECIEVE_USER_PW_CH
+  }
+}
+
 export function requestUsers(payload) {
   return (dispatch: Function): Promise => {
     dispatch(createReqUsersAction())
@@ -52,6 +59,25 @@ export function requestUsers(payload) {
   }
 }
 
+export function requestChUsers(payload) {
+  return (dispatch: Function): Promise => {
+    dispatch(createReqUsersAction())
+    console.log(payload);
+    let query = "mutation {"+
+      "updateUser(email: \""+payload.email+"\", password: \""+payload.password+"\") {"+
+        "email,"+
+        "name"+
+      "}"+
+    "}"
+    console.log("query : "+query);
+    return post('http://localhost:3001/graphql',{
+      query:query
+    }).done(resp => {
+      dispatch(createRecvChUsersAction())
+    })
+  }
+}
+
 /**
  * Action Handlers
  */
@@ -61,17 +87,22 @@ const ACTION_HANDLERS = {
   },
   [RECIEVE_USERS]: (state, action) => {
     return ({ ...state,
-     waiting: false ,
-     success: action.success,
-     received: true,
-     users: action.users
+     users: action.users,
+     waiting:false
    })
   },
   [REQUEST_USER_PW_CH]: (state) => {
     return ({ ...state,
       initialState
     })
-  }
+  },
+  [RECIEVE_USER_PW_CH]: (state, action) => {
+    return ({ ...state,
+     waiting: false ,
+     success: action.success,
+     received: true
+   })
+  },
 }
 
 /**

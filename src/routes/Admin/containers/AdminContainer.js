@@ -1,12 +1,13 @@
 /* @flow */
 import { connect } from 'react-redux'
-import { requestUsers } from '../modules/admin'
+import { requestUsers ,requestChUsers} from '../modules/admin'
 
 import Admin from '../components/Admin'
 
-const mapActionCreators : {requestUsers: Function} =
+const mapActionCreators : {requestUsers: Function,requestChUsers:Function} =
 {
-  requestUsers
+  requestUsers,
+  requestChUsers
 }
 
 const mapStateToProps =
