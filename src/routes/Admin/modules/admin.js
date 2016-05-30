@@ -3,12 +3,14 @@
 import type { UserInfo } from '../interfaces/admin'
 import { post } from 'jquery'
 
+export const GRAPHQL_URL = process.env.GRAPHQL_URL||"NOT FOUND";
 // Action type
 // ------------------------------------
 export const REQUEST_USERS      = 'REQUEST_USERS'
 export const RECIEVE_USERS      = 'RECIEVE_USERS'
 export const REQUEST_USER_PW_CH = 'REQUEST_USER_PW_CH'
 export const RECIEVE_USER_PW_CH = 'RECIEVE_USER_PW_CH'
+
 
 const initialState = {
   waiting  : false,
@@ -43,8 +45,9 @@ export function createRecvChUsersAction() : Action {
 
 export function requestUsers(payload) {
   return (dispatch: Function): Promise => {
+    console.log(GRAPHQL_URL);
     dispatch(createReqUsersAction())
-    return post('http://localhost:3001/graphql',{
+    return post(GRAPHQL_URL,{
       query:
       `{
         users{
@@ -61,6 +64,7 @@ export function requestUsers(payload) {
 
 export function requestChUsers(payload) {
   return (dispatch: Function): Promise => {
+    console.log(GRAPHQL_URL);
     dispatch(createReqUsersAction())
     console.log(payload);
     let query = "mutation {"+
@@ -70,7 +74,7 @@ export function requestChUsers(payload) {
       "}"+
     "}"
     console.log("query : "+query);
-    return post('http://localhost:3001/graphql',{
+    return post(GRAPHQL_URL,{
       query:query
     }).done(resp => {
       dispatch(createRecvChUsersAction())
