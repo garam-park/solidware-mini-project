@@ -13,7 +13,14 @@ class Sentinel {
   }
 
   login(userInfo){
-    let ret = this.db.collection('users').findOne(userInfo)
+    let ret = this.db.collection('users').
+    findOne(userInfo,
+      {
+        fields:{
+          password:0
+        }
+      }
+    )
     return ret
   }
 
