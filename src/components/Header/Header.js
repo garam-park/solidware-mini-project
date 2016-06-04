@@ -14,9 +14,8 @@ class Header extends React.Component{
   render(){
 
     const { user } = this.props;
-    console.log('user on render of Header',user);
     let adminLink;
-    console.log("user.permission.indexOf('admin')",user.permission.indexOf('admin'));
+    if(user && user.permission)
     if (user.permission.indexOf('admin')!==-1) {
       adminLink =
       <Link to='/admin' activeClassName={classes.activeRoute}>
