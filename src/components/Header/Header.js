@@ -24,9 +24,6 @@ class Header extends React.Component{
     }
 
     return(
-
-
-
       <div>
         <h1>React Redux Starter Kit</h1>
         <IndexLink to='/' activeClassName={classes.activeRoute}>

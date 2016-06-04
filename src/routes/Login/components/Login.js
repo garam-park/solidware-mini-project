@@ -38,7 +38,7 @@ class Login extends React.Component {
               <input type="text" ref="email" name="email"></input>
               <br/>
               password:
-              <input type="text" ref="password" name="password"></input>
+              <input type="password" ref="password" name="password"></input>
               <br/>
             </form>
             <button onClick={(e) => this.doLogin(e)}>로그인</button>
@@ -55,7 +55,7 @@ class Login extends React.Component {
             <input type="text" ref="email" name="email"></input>
             <br/>
             password:
-            <input type="text" ref="password" name="password"></input>
+            <input type="password" ref="password" name="password"></input>
             <br/>
           </form>
           <button onClick={(e) => this.doLogin(e)}>로그인</button>
