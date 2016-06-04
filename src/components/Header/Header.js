@@ -60,12 +60,16 @@ class Header extends React.Component{
 //   user : PropTypes.object.isRequired
 // }
 const mapStateToProps =
-(state) =>
-({
-  user    : state.login.user
-})
-//
-Header =  connect(mapStateToProps)(Header)
+function (state) {
+  let user = {};
+  if(state.login && state.login.user){
+    user = state.login.user;
+  }
+  return {
+    user
+  }
+}
 
+Header =  connect(mapStateToProps)(Header)
 
 export default Header

@@ -13,10 +13,15 @@ class CoreLayout extends React.Component{
 
     const { children } = this.props;
     const state        = this.props.route.store.getState();
+    let hasUser = false;
+    if(state.login && state.login.user){
+      hasUser          = true;
+    }
+
     return(
       <div className='container text-center'>
         <Header
-          user = {state.login.user}
+          user = {hasUser?state.login.user:{}}
         />
         <div className={classes.mainContainer}>
           {children}
