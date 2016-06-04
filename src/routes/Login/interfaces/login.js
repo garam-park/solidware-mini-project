@@ -5,8 +5,14 @@ export type LoginObj = {
   password : string
 }
 
+export type User = {
+  email : string,
+  permission : Array<string>
+}
+
 export type LoginStateObj = {
   waiting  : boolean,
   received : boolean,
-  success  : boolean
+  success  : boolean,
+  user     : User
 }

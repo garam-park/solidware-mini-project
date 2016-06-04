@@ -25,7 +25,8 @@ export const createRoutes = (store) => {
       Login(store),
       Admin(store),
       NotFound
-    ]
+    ],
+    store
   }
 
   return routes

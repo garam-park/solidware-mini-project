@@ -16,7 +16,8 @@ const mapStateToProps =
   received : state.login.received,
   success  : state.login.success,
   email    : state.login.email,
-  password : state.login.password
+  password : state.login.password,
+  user     : state.login.user
 })
 
 export default connect(mapStateToProps, mapActionCreators)(Login)

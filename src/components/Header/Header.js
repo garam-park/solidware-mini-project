@@ -1,11 +1,33 @@
-import React from 'react'
+/* @flow */
+import React,{PropTypes} from 'react'
+import { connect } from 'react-redux'
 import { IndexLink, Link } from 'react-router'
 import classes from './Header.scss'
 
 class Header extends React.Component{
 
+  constructor(props){
+    super(props);
+    console.log('props on Header',props);
+  }
+
   render(){
+
+    const { user } = this.props;
+    console.log('user on render of Header',user);
+    let adminLink;
+    console.log("user.permission.indexOf('admin')",user.permission.indexOf('admin'));
+    if (user.permission.indexOf('admin')!==-1) {
+      adminLink =
+      <Link to='/admin' activeClassName={classes.activeRoute}>
+        Admin
+      </Link>;
+    }
+
     return(
+
+
+
       <div>
         <h1>React Redux Starter Kit</h1>
         <IndexLink to='/' activeClassName={classes.activeRoute}>
@@ -26,14 +48,25 @@ class Header extends React.Component{
         {' · '}
         <Link to='/login' activeClassName={classes.activeRoute}>
           Login
-        {' · '}
         </Link>
-        <Link to='/admin' activeClassName={classes.activeRoute}>
-          Admin
-        </Link>
+        {adminLink?' · ':''}
+        {adminLink}
+
       </div>
     )
   }
 }
+
+// Header.propTypes = {
+//   user : PropTypes.object.isRequired
+// }
+const mapStateToProps =
+(state) =>
+({
+  user    : state.login.user
+})
+//
+Header =  connect(mapStateToProps)(Header)
+
 
 export default Header

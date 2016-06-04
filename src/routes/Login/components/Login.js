@@ -15,7 +15,7 @@ class Login extends React.Component {
 
   render(){
 
-    const { waiting, received, success } = this.props
+    const { waiting, received, success, user } = this.props
 
     if(waiting){
       return (<div>기다리시오</div>)
@@ -23,7 +23,10 @@ class Login extends React.Component {
       if(success){
         return (
           <div>
-            로그인 성공<br/>
+            로그인 성공 : { user.name }<br/>
+            // { user.email }<br/>
+            // { user.permission }<br/>
+
           </div>)
       }else {
         return (<div>

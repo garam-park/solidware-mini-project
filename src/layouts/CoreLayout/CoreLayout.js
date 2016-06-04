@@ -12,10 +12,12 @@ class CoreLayout extends React.Component{
   render(){
 
     const { children } = this.props;
-
+    const state        = this.props.route.store.getState();
     return(
       <div className='container text-center'>
-        <Header/>
+        <Header
+          user = {state.login.user}
+        />
         <div className={classes.mainContainer}>
           {children}
         </div>
