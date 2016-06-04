@@ -2,6 +2,7 @@
 export default function applyExpressMiddleware (fn, req, res) {
   const originalEnd = res.end
 
+  console.log('applyExpressMiddleware');
   return new Promise((resolve) => {
     res.end = function () {
       originalEnd.apply(this, arguments)

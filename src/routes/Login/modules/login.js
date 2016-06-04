@@ -13,7 +13,10 @@ export const RECIEVE_LOGIN = 'RECIEVE_LOGIN'
 const initialState: LoginStateObj = {
   waiting  : false,
   received : false,
-  success  : false
+  success  : false,
+  user     : {
+    permission : []
+  }
 }
 /*
  * End of Action Types
@@ -25,10 +28,11 @@ const initialState: LoginStateObj = {
    }
  }
 
- export function createRecvAction(success) : Action {
+ export function createRecvAction(success,data) : Action {
    return {
      type : RECIEVE_LOGIN,
-     success
+     success,
+     data
    }
  }
 
@@ -44,7 +48,7 @@ const initialState: LoginStateObj = {
        }else{
          isSuccess = false;
        }
-       dispatch(createRecvAction(isSuccess))
+       dispatch(createRecvAction(isSuccess,data))
      })
    }
  }
@@ -57,10 +61,12 @@ const initialState: LoginStateObj = {
      return ({ ...state, waiting: true })
    },
    [RECIEVE_LOGIN]: (state: LoginStateObj, action): LoginStateObj => {
+     console.log(action.data);
      return ({ ...state,
-      waiting: false ,
-      success: action.success,
-      received: true
+      waiting  : false ,
+      success  : action.success,
+      received : true,
+      user     : action.data
     })
    }
  }

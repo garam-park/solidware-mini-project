@@ -1,5 +1,6 @@
 import Koa from 'koa'
 import convert from 'koa-convert'
+import session from 'koa-session'
 import Router from 'koa-router'
 import KoaBody from 'koa-body'
 import webpack from 'webpack'
@@ -18,6 +19,32 @@ const paths = config.utils_paths
 const app = new Koa()
 const router = new Router()
 const koaBody = new KoaBody()
+
+/** session test*/
+app.keys = ['cTuWWes3RR1TQaTWuBbF'];
+
+app.use(convert(session(app)));
+
+router.get(
+  '/session',
+  function *(next) {
+    var n = this.session.views || 0;
+    this.session.views++;
+    console.log('ssesion : '+this.session);
+    this.body = n + ' views';
+  }
+);
+
+router.get(
+  '/session-minus',
+  function *(next) {
+    var n = this.session.views || 0;
+    this.session.views--;
+    console.log('ssesion : '+this.session);
+    this.body = n + ' views';
+  }
+);
+
 
 router.post(
   '/register',koaBody,
@@ -50,6 +77,9 @@ router.post(
         if(ret !== null)
           this.body = { ...ret,ok : 1}
         console.log("03 sen login end, ret is "+ret);
+        for(var propName in this.body) {
+          console.log(propName+":"+this.body[propName]);
+        }
 
       } catch (e) {
         console.log("garam ::::::: ----------"+e);
