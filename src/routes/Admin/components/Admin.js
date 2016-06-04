@@ -28,10 +28,6 @@ class Admin extends React.Component {
 
     const { waiting, received, success, users } = this.props
 
-    console.log("waiting : "+waiting);
-    console.log("received : "+received);
-    console.log("success : "+success);
-    console.log("users : "+users);
       return (
         <div>
           Change User Password <br/>
@@ -44,7 +40,7 @@ class Admin extends React.Component {
                    <input type="text" ref="email" name="email"></input>
                    <br/>
                    password:
-                   <input type="text" ref="password" name="password"></input>
+                   <input type="password" ref="password" name="password"></input>
                    <br/>
                    </form>
                    <button onClick={(e) => this.doChange(e)}>Change</button>
@@ -67,6 +63,19 @@ class Admin extends React.Component {
   doChange(e) {
     const email    = this.refs.email.value.trim();
     const password = this.refs.password.value.trim();
+    if(email.length<=0){
+      alert('이메일을 입력하세요');
+      return;
+    }else if(password.length<=0){
+      alert('패스워드를 입력하세요');
+      return;
+    }
+
+    if (this.props.users.indexOf(email)===-1) {
+      alert('요청하는 이메일이 없습니다.');
+      return;
+    }
+
     this.props.requestChUsers({
       email,
       password
