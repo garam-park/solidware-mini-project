@@ -27,25 +27,27 @@ class Admin extends React.Component {
   render(){
 
     const { waiting, received, success, users } = this.props
-
+    console.log('success',success);
+    let waitingJSX = <div>진행중..</div>;
+    let formJSX    =
+                    <div>
+                      <form>
+                        Email :
+                      <input type="text" ref="email" name="email"></input>
+                      <br/>
+                        password:
+                      <input type="password" ref="password" name="password"></input>
+                      <br/>
+                      </form>
+                      <button onClick={(e) => this.doChange(e)}>Change</button>
+                    </div>;
+      let successJSX = success? <div>변경 완료</div>:'';
       return (
         <div>
           Change User Password <br/>
+          {successJSX}
           <hr/>
-          {(waiting
-               ? <div>진행중..</div>
-               : <div>
-                  <form>
-                   Email :
-                   <input type="text" ref="email" name="email"></input>
-                   <br/>
-                   password:
-                   <input type="password" ref="password" name="password"></input>
-                   <br/>
-                   </form>
-                   <button onClick={(e) => this.doChange(e)}>Change</button>
-                  </div>
-          )}
+          {(waiting ? waitingJSX: formJSX)}
           <hr/>
           <ol>
           {
@@ -71,15 +73,23 @@ class Admin extends React.Component {
       return;
     }
 
-    if (this.props.users.indexOf(email)===-1) {
-      alert('요청하는 이메일이 없습니다.');
-      return;
-    }
+    let { users,requestChUsers }  = this.props;
+    let hasEmail = false;
 
-    this.props.requestChUsers({
-      email,
-      password
-    });
+    users.forEach(function (value, index, ar) {
+
+      if(value.email === email){
+        hasEmail = true;
+        requestChUsers({
+          email,
+          password
+        });
+        return;
+      }
+
+    })
+    if(!hasEmail)
+      alert('요청하는 이메일이 없습니다.');
   }
 }
 
