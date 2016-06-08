@@ -11,10 +11,16 @@ export default (store) => ({
       will not loaded until the router invokes this callback. */
       const Admin = require('./containers/AdminContainer').default
       const adminReducer = require('./modules/admin').default
+      const userReducer  = require('./modules/user-item').default
 
       injectReducer(store, {
         key: 'admin',
         reducer: adminReducer
+      })
+
+      injectReducer(store, {
+        key: 'user',
+        reducer: userReducer
       })
 
       next(null, Admin)

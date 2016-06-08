@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react'
+import UserItem from './UserItem'
 
 type Props = {
   waiting  : boolean,
@@ -26,38 +27,33 @@ class Admin extends React.Component {
   }
   render(){
 
-    const { waiting, received, success, users } = this.props
+    const { waiting, received, success, users,requestChUsers } = this.props
     console.log('success',success);
     let waitingJSX = <div>진행중..</div>;
-    let formJSX    =
-                    <div>
-                      <form>
-                        Email :
-                      <input type="text" ref="email" name="email"></input>
-                      <br/>
-                        password:
-                      <input type="password" ref="password" name="password"></input>
-                      <br/>
-                      </form>
-                      <button onClick={(e) => this.doChange(e)}>Change</button>
-                    </div>;
-      let successJSX = success? <div>변경 완료</div>:'';
+    let successJSX = success? <div>변경 완료</div>:'';
+      //return  compoent..
       return (
         <div>
           Change User Password <br/>
           {successJSX}
           <hr/>
-          {(waiting ? waitingJSX: formJSX)}
+          {(waiting ? waitingJSX: '')}
           <hr/>
-          <ol>
+
           {
             myCustomIf(users !== undefined, function(){
               return users.map((user) => {
-                return <li key={user._id}>{user.email}</li>;
+                // return <li key={user._id}>{user.email}</li>;
+                return (
+                  <UserItem
+                    key={user._id}
+                    _id={user._id}
+                    email={user.email}/>
+                )
              })
             })
           }
-          </ol>
+
         </div>
       )
   }
